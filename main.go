@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"os"
 	"strconv"
@@ -27,18 +28,31 @@ func main() {
 		return
 	}
 	speaker.Init(beep.SampleRate(48000), 4800)
-	s, err := generators.SinTone(beep.SampleRate(48000), f)
-	if err != nil {
-		panic(err)
-	}
+	// s, err := generators.SinTone(beep.SampleRate(48000), f)
+	// if err != nil {
+	// 	panic(err)
+	// }
 
-	s2, err := generators.SawTone(beep.SampleRate(48000), f)
+	s2, err := generators.NewGenerator(beep.SampleRate(48000), f, generators.SawFunc)
 	if err != nil {
 		panic(err)
 	}
-	speaker.Play(s)
-	speaker.Play(s2)
+	// speaker.Play(s)
+	speaker.Play(s2.GetOsc())
+
+	reader := bufio.NewReader(os.Stdin)
+
 	for {
+		userInput, _ := reader.ReadString('\n')
+
+		switch userInput {
+		case "k\n":
+			s2.SetFreq(s2.GetFreq() + 10.0)
+		case "j\n":
+			s2.SetFreq(s2.GetFreq() - 10.0)
+		case "q\n":
+			return
+		}
 
 	}
 }
