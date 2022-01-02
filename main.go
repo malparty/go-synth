@@ -36,13 +36,19 @@ func main() {
 	// }
 
 	limiter := &effects.Limiter{
-		Rate: 80.0,
+		Rate: 50.0,
+	}
+
+	reverb := &effects.Reverb{
+		Rate: 50,
+		Time: 300,
 	}
 
 	chainFunction := &generators.ChainGenerator{
 		GeneratorFuncs: []generators.GeneratorFunction{
 			oscillators.SawFunc,
 			limiter.GetLimiterFunc(),
+			reverb.GetReverbFunc(),
 		},
 	}
 
@@ -60,11 +66,11 @@ func main() {
 
 		switch userInput {
 		case "k\n":
-			s2.SetFreq(s2.GetFreq() + 10.0)
-			limiter.Rate = limiter.Rate - 10
+			// s2.SetFreq(s2.GetFreq() + 10.0)
+			reverb.SetTime(reverb.Time - 10)
 		case "j\n":
-			s2.SetFreq(s2.GetFreq() - 10.0)
-			limiter.Rate = limiter.Rate + 10
+			// s2.SetFreq(s2.GetFreq() - 10.0)
+			reverb.SetTime(reverb.Time + 10)
 		case "q\n":
 			return
 		}
