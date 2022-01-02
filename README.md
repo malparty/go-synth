@@ -1,3 +1,5 @@
+[![Coverage](https://coveralls.io/repos/github/malparty/go-synth/badge.svg)](https://coveralls.io/github/malparty/go-synth)
+
 # Go-synth
 
 A synth made with Go.
