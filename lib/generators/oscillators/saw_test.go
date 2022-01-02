@@ -1,9 +1,9 @@
-package generators_test
+package oscillators_test
 
 import (
 	"testing"
 
-	"github.com/malparty/go-synth/lib/generators"
+	"github.com/malparty/go-synth/lib/generators/oscillators"
 )
 
 func TestSawFunc(t *testing.T) {
@@ -30,7 +30,7 @@ func TestSawFunc(t *testing.T) {
 	}
 
 	for _, scene := range scenes {
-		if r := generators.SawFunc(scene.stat, scene.delta); r != scene.result {
+		if r := oscillators.SawFunc(scene.stat, scene.delta); r != scene.result {
 			t.Errorf("Expect SawFunc(%f, %f) to return %f but got %f instead", scene.stat, scene.delta, scene.result, r)
 		}
 	}

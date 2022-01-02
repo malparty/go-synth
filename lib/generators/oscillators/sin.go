@@ -1,10 +1,10 @@
-// tones generator
-
-package generators
+package oscillators
 
 import (
 	"errors"
 	"math"
+
+	"github.com/malparty/go-synth/lib/generators"
 
 	"github.com/faiface/beep"
 )
@@ -16,14 +16,14 @@ func SinTone(sr beep.SampleRate, freq int) (beep.Streamer, error) {
 	if int(sr)/freq < 2 {
 		return nil, errors.New("faiface beep tone generator: samplerate must be at least 2 times grater then frequency")
 	}
-	r := &oscStream{
-		oscFunc: sinFunc,
+	r := &generators.OscStream{
+		OscFunc: sinFunc,
 	}
-	r.stat = 0.0
+	r.Stat = 0.0
 	srf := float64(sr)
 	ff := float64(freq)
 	steps := srf / ff
-	r.delta = 1.0 / steps
+	r.Delta = 1.0 / steps
 	return r, nil
 }
 

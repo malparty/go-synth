@@ -7,6 +7,8 @@ import (
 	"strconv"
 
 	"github.com/malparty/go-synth/lib/generators"
+	"github.com/malparty/go-synth/lib/generators/effects"
+	"github.com/malparty/go-synth/lib/generators/oscillators"
 
 	"github.com/faiface/beep"
 	"github.com/faiface/beep/speaker"
@@ -33,7 +35,18 @@ func main() {
 	// 	panic(err)
 	// }
 
-	s2, err := generators.NewGenerator(beep.SampleRate(48000), f, generators.SawFunc)
+	limiter := &effects.Limiter{
+		Rate: 80.0,
+	}
+
+	chainFunction := &generators.ChainGenerator{
+		GeneratorFuncs: []generators.GeneratorFunction{
+			oscillators.SawFunc,
+			limiter.GetLimiterFunc(),
+		},
+	}
+
+	s2, err := generators.NewGenerator(beep.SampleRate(48000), f, chainFunction.ChainFunc)
 	if err != nil {
 		panic(err)
 	}
@@ -48,8 +61,10 @@ func main() {
 		switch userInput {
 		case "k\n":
 			s2.SetFreq(s2.GetFreq() + 10.0)
+			limiter.Rate = limiter.Rate - 10
 		case "j\n":
 			s2.SetFreq(s2.GetFreq() - 10.0)
+			limiter.Rate = limiter.Rate + 10
 		case "q\n":
 			return
 		}
