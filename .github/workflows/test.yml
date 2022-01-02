@@ -13,6 +13,8 @@ jobs:
       - uses: actions/setup-go@v1
         with:
           go-version: ${{ matrix.go }}
+      - name: Install libasound2-dev
+        run: sudo apt-get install libasound2-dev
       - uses: actions/checkout@v2
       - run: go test -v -coverprofile=profile.cov ./...
 
