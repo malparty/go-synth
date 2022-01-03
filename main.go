@@ -36,12 +36,13 @@ func main() {
 	// }
 
 	limiter := &effects.Limiter{
-		Rate: 50.0,
+		Rate: 20.0,
 	}
 
 	reverb := &effects.Reverb{
-		Rate: 50,
-		Time: 300,
+		MixRate:  30,
+		FadeRate: 60,
+		Time:     300,
 	}
 
 	chainFunction := &generators.ChainGenerator{
@@ -62,16 +63,16 @@ func main() {
 	reader := bufio.NewReader(os.Stdin)
 
 	for {
-		userInput, _ := reader.ReadString('\n')
+		userInput, _ := reader.ReadByte()
 
-		switch userInput {
-		case "k\n":
+		switch string(userInput) {
+		case "k":
 			// s2.SetFreq(s2.GetFreq() + 10.0)
 			reverb.SetTime(reverb.Time - 10)
-		case "j\n":
+		case "j":
 			// s2.SetFreq(s2.GetFreq() - 10.0)
 			reverb.SetTime(reverb.Time + 10)
-		case "q\n":
+		case "q":
 			return
 		}
 

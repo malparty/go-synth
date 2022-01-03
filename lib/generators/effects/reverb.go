@@ -5,8 +5,9 @@ import (
 )
 
 type Reverb struct {
-	Rate float64
-	Time int
+	MixRate  float64
+	FadeRate float64
+	Time     int
 
 	buffer       []float64
 	currentIndex int
@@ -30,15 +31,15 @@ func (r *Reverb) GetReverbFunc() generators.GeneratorFunction {
 		r.buffer = append(r.buffer, 0)
 	}
 
-	return func(stat float64, _ float64) (result float64) {
-		result = stat + r.buffer[r.currentIndex]*r.Rate/100
+	return func(stat float64, _ float64) (reverbLevel float64) {
+		reverbLevel = r.buffer[r.currentIndex] * r.FadeRate / 100
 
-		r.buffer[r.currentIndex] = result
+		r.buffer[r.currentIndex] = reverbLevel + stat*r.MixRate/100
 		r.currentIndex += 3
 		if r.currentIndex > r.Time-3 {
 			r.currentIndex = 0
 		}
 
-		return result
+		return reverbLevel + stat
 	}
 }
