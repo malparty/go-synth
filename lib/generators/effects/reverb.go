@@ -80,12 +80,12 @@ func (r *Reverb) resetBufferSize() {
 	fmt.Printf("Delta: %.5f \n", r.delta)
 	fmt.Printf("Steps: %.1f \n", steps)
 
-	bufferSize := steps * r.DelayMs
+	bufferSize := steps * r.DelayMs / 1000
 
 	r.buffer = r.resizeBuffer(r.buffer, bufferSize)
-	r.bufferb = r.resizeBuffer(r.bufferb, bufferSize+50)
-	r.bufferc = r.resizeBuffer(r.bufferc, bufferSize+30)
-	r.bufferd = r.resizeBuffer(r.bufferd, bufferSize-50)
+	r.bufferb = r.resizeBuffer(r.bufferb, bufferSize+5)
+	r.bufferc = r.resizeBuffer(r.bufferc, bufferSize+3)
+	r.bufferd = r.resizeBuffer(r.bufferd, bufferSize-5)
 }
 
 func (r *Reverb) resizeBuffer(buffer []float64, size float64) []float64 {

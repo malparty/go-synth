@@ -42,8 +42,8 @@ func main() {
 
 	reverb := &effects.Reverb{
 		MixRate:  100,
-		FadeRate: 50,
-		DelayMs:  40,
+		FadeRate: 80,
+		DelayMs:  10,
 		Freq:     float64(f),
 	}
 
