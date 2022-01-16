@@ -6,6 +6,7 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/malparty/go-synth/lib"
 	"github.com/malparty/go-synth/lib/generators"
 	"github.com/malparty/go-synth/lib/generators/effects"
 	"github.com/malparty/go-synth/lib/generators/oscillators"
@@ -29,7 +30,7 @@ func main() {
 		usage()
 		return
 	}
-	speaker.Init(beep.SampleRate(48000), 4800)
+	speaker.Init(beep.SampleRate(lib.SampleRate), 4800)
 	// s, err := generators.SinTone(beep.SampleRate(48000), f)
 	// if err != nil {
 	// 	panic(err)
@@ -40,9 +41,10 @@ func main() {
 	}
 
 	reverb := &effects.Reverb{
-		MixRate:  30,
-		FadeRate: 60,
-		Time:     300,
+		MixRate:  100,
+		FadeRate: 50,
+		DelayMs:  40,
+		Freq:     float64(f),
 	}
 
 	chainFunction := &generators.ChainGenerator{
@@ -68,10 +70,10 @@ func main() {
 		switch string(userInput) {
 		case "k":
 			// s2.SetFreq(s2.GetFreq() + 10.0)
-			reverb.SetTime(reverb.Time - 10)
+			reverb.SetDelay(reverb.DelayMs - 10)
 		case "j":
 			// s2.SetFreq(s2.GetFreq() - 10.0)
-			reverb.SetTime(reverb.Time + 10)
+			reverb.SetDelay(reverb.DelayMs + 10)
 		case "q":
 			return
 		}
